@@ -28,7 +28,7 @@ export default function Home() {
             여름 고소아
           </h1>
           <p className="pt-6 max-w-md text-sm text-white drop-shadow-[0_1px_2px_rgba(33,61,101,0.55)]">
-            고소아 못 가는 여름을 위해 위너스1이 만들었습니다
+            고소아 못 가는 여름을 위해 어떤 위너스가 만들었습니다
             <br />
             같이 재밌는 비시즌 보내요!!
           </p>
