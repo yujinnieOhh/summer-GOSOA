@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Analytics } from "@vercel/analytics/next";
+import ClarityAnalytics from "@/src/components/ClarityAnalytics";
 import "./globals.css";
 
 const kblCourt = localFont({
@@ -42,7 +44,11 @@ export default function RootLayout({
       lang="en"
       className={`${kblCourt.variable} ${kblJump1.variable} ${kblJump2.variable} ${kblJump3.variable} ${kblJump4.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <Analytics />
+        <ClarityAnalytics />
+      </body>
     </html>
   );
 }
