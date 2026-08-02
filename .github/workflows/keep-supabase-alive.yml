@@ -1,0 +1,24 @@
+name: Keep Supabase Alive
+
+# Supabase 무료플랜은 7일간 요청이 하나도 없으면 프로젝트를 일시정지(pause)시킨다.
+# 트래픽이 적은 달엔 이 공백이 생겨 앱이 빈 페이지가 되므로, 매일 한 번
+# 가벼운 읽기 요청을 보내 활성 상태를 유지한다.
+on:
+  schedule:
+    - cron: "0 6 * * *" # 매일 06:00 UTC (15:00 KST)
+  workflow_dispatch: {} # Actions 탭에서 수동 실행("Run workflow") 가능
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST (작은 읽기 = 활성 유지)
+        run: |
+          # apikey는 공개용 anon 키 — 이미 브라우저 번들에 노출돼 있고 RLS로 보호되므로
+          # 워크플로에 인라인해도 안전(새로 노출되는 비밀 없음). 원하면 repo secret으로 옮겨도 됨.
+          code=$(curl -sS -m 30 -o /dev/null -w "%{http_code}" \
+            "https://neyumnsfydhaxpnaunkf.supabase.co/rest/v1/games?select=id&limit=1" \
+            -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5leXVtbnNmeWRoYXhwbmF1bmtmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NjE3NjYsImV4cCI6MjA5NDMzNzc2Nn0.RmIKa9T8ZkWoBxAfsrzHXpUQa5PjhDcLv9oqJ7EKlnE")
+          echo "Supabase responded: HTTP $code"
+          # 2xx가 아니면 job 실패 처리 → GitHub이 알림을 보내 조기 경고 역할.
+          [ "$code" -ge 200 ] && [ "$code" -lt 300 ]
