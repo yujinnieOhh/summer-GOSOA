@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import type { GameSchedule } from "@/src/constants/schedule";
 import { formatCount } from "@/src/lib/format";
+import { venueLabel } from "@/src/lib/venue";
 
 interface Reason {
   id: string;
@@ -74,7 +75,7 @@ export default function ReasonsListModal({
       <div className="relative flex max-h-[80vh] w-full max-w-md flex-col rounded-2xl bg-white p-5 shadow-xl ring-1 ring-sono-navy/10">
         <div className="mb-3 shrink-0">
           <p className="text-xs tracking-widest text-sono-navy/60">
-            {game.date.slice(0, 2)}.{game.date.slice(2, 4)}.{game.date.slice(4, 6)} · {game.venue}
+            {game.date.slice(0, 2)}.{game.date.slice(2, 4)}.{game.date.slice(4, 6)} · {venueLabel(game, "long")}
           </p>
           <h2
             id="reasons-modal-title"

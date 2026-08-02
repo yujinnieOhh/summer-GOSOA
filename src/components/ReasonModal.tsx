@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { GameSchedule } from "@/src/constants/schedule";
+import { venueLabel } from "@/src/lib/venue";
 
 interface ReasonModalProps {
   game: GameSchedule;
@@ -59,7 +60,7 @@ export default function ReasonModal({
       <div className="relative w-full max-w-md rounded-2xl bg-white p-5 shadow-xl ring-1 ring-sono-navy/10">
         <div className="mb-3">
           <p className="text-xs tracking-widest text-sono-navy/60">
-            {game.date.slice(0, 2)}.{game.date.slice(2, 4)}.{game.date.slice(4, 6)} · {game.venue}
+            {game.date.slice(0, 2)}.{game.date.slice(2, 4)}.{game.date.slice(4, 6)} · {venueLabel(game, "long")}
           </p>
           <h2
             id="reason-modal-title"

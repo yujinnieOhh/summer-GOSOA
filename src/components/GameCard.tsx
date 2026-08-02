@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import type { GameSchedule } from "@/src/constants/schedule";
 import { formatCount } from "@/src/lib/format";
 import { getHighlightSearchUrl } from "@/src/lib/highlight";
+import { venueLabel } from "@/src/lib/venue";
 
 interface GameCardProps {
   game: GameSchedule;
   likes: number;
   onLike?: () => void;
   onShowReasons?: () => void;
+  onShowDetail?: () => void;
 }
 
 function mmdd(yymmdd: string) {
@@ -117,22 +119,32 @@ export default function GameCard({
   likes,
   onLike,
   onShowReasons,
+  onShowDetail,
 }: GameCardProps) {
   const highlightUrl = getHighlightSearchUrl(game);
 
   return (
     <article className="flex items-center justify-between gap-3 border-b border-sono-navy/15 bg-white/90 px-3 py-3 last:border-b-0 sm:gap-4 sm:px-4">
-      <div className="flex shrink-0 flex-wrap items-center gap-2 tabular-nums">
+      {/* Tapping the info column opens the detail popup — users kept
+          dead-clicking here expecting the score (Clarity 6월). */}
+      <button
+        type="button"
+        onClick={onShowDetail}
+        aria-label="경기 상세 정보 보기"
+        className="-my-1 -ml-1.5 flex shrink-0 flex-wrap items-center gap-2 rounded-lg px-1.5 py-1 text-left tabular-nums transition-colors hover:bg-sono-navy/5 active:bg-sono-navy/10"
+      >
         {/* Date column — tune font here (size/weight/family). */}
         <span className="font-court text-sm text-zinc-700">
           {mmdd(game.date)}
         </span>
-        <span className="text-sm leading-none text-zinc-700">{game.venue}</span>
+        <span className="text-sm leading-none text-zinc-700">
+          {venueLabel(game, "short")}
+        </span>
 
         <span className="text-base leading-none" aria-hidden="true">
           {game.resultIcon}
         </span>
-      </div>
+      </button>
 
       {/* Single-row action cluster on every viewport. justify-between on the
           parent collapses to a small natural gap on phones because the action
@@ -150,10 +162,12 @@ export default function GameCard({
         >
           추천 이유 보기
         </button>
+        {/* Same-tab navigation on purpose: in-app browsers (KakaoTalk 등) drop
+            target="_blank", turning the tap into a dead click (Clarity 6월).
+            On mobile the YouTube app opens over the top anyway, so the user
+            doesn't lose their place; desktop can use the back button. */}
         <a
           href={highlightUrl}
-          target="_blank"
-          rel="noopener noreferrer"
           aria-label="경기 하이라이트 보기"
           title="경기 하이라이트"
           className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-sono-navy ring-1 ring-sono-navy/30 transition-colors hover:bg-sono-navy/10 sm:h-9 sm:w-9"

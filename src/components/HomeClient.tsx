@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import GameCard from "@/src/components/GameCard";
 import GameSearchInput from "@/src/components/GameSearchInput";
+import GameDetailModal from "@/src/components/GameDetailModal";
 import ReasonModal from "@/src/components/ReasonModal";
 import ReasonsListModal from "@/src/components/ReasonsListModal";
 import {
@@ -45,6 +46,7 @@ export default function HomeClient() {
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
   const [submitGame, setSubmitGame] = useState<GameSchedule | null>(null);
   const [reasonsGame, setReasonsGame] = useState<GameSchedule | null>(null);
+  const [detailGame, setDetailGame] = useState<GameSchedule | null>(null);
   const [sortMode, setSortMode] = useState<SortMode>("likes");
   const [loadError, setLoadError] = useState<string | null>(null);
 
@@ -300,6 +302,7 @@ export default function HomeClient() {
                 likes={totalLikesByDate(game.date)}
                 onLike={() => handleAnonLike(game.date)}
                 onShowReasons={() => setReasonsGame(game)}
+                onShowDetail={() => setDetailGame(game)}
               />
             ))
           )}
@@ -320,6 +323,12 @@ export default function HomeClient() {
         open={reasonsGame !== null}
         onClose={() => setReasonsGame(null)}
         onToggleLike={handleToggleReasonLike}
+      />
+
+      <GameDetailModal
+        game={detailGame}
+        open={detailGame !== null}
+        onClose={() => setDetailGame(null)}
       />
     </>
   );

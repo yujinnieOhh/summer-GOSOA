@@ -5,6 +5,7 @@ import {
   SONO_SCHEDULE_2526,
   type GameSchedule,
 } from "@/src/constants/schedule";
+import { venueLabel } from "@/src/lib/venue";
 
 interface GameSearchInputProps {
   onSelect?: (game: GameSchedule) => void;
@@ -111,7 +112,7 @@ export default function GameSearchInput({
         <div className="mt-3 flex items-center justify-between gap-3 rounded-lg bg-white/90 px-4 py-3 text-sm">
           <div className="min-w-0">
             <div className="mb-1 text-xs text-zinc-500 tabular-nums">
-              {formatDateLabel(selected.date)} · {selected.venue}
+              {formatDateLabel(selected.date)} · {venueLabel(selected, "long")}
             </div>
             <GameSummary game={selected} />
           </div>
