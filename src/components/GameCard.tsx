@@ -124,20 +124,23 @@ export default function GameCard({
   const highlightUrl = getHighlightSearchUrl(game);
 
   return (
-    <article className="flex items-center justify-between gap-3 border-b border-sono-navy/15 bg-white/90 px-3 py-3 last:border-b-0 sm:gap-4 sm:px-4">
+    <article className="flex items-center gap-2 border-b border-sono-navy/15 bg-white/90 px-3 py-3 last:border-b-0 sm:gap-4 sm:px-4">
       {/* Tapping the info column opens the detail popup — users kept
           dead-clicking here expecting the score (Clarity 6월). */}
       <button
         type="button"
         onClick={onShowDetail}
         aria-label="경기 상세 정보 보기"
-        className="-my-1 -ml-1.5 flex shrink-0 flex-wrap items-center gap-2 rounded-lg px-1.5 py-1 text-left tabular-nums transition-colors hover:bg-sono-navy/5 active:bg-sono-navy/10"
+        className="-my-1 -ml-1.5 flex shrink-0 items-center gap-1.5 rounded-lg px-1.5 py-1 text-left tabular-nums transition-colors hover:bg-sono-navy/5 active:bg-sono-navy/10"
       >
         {/* Date column — tune font here (size/weight/family). */}
         <span className="font-court text-sm text-zinc-700">
           {mmdd(game.date)}
         </span>
-        <span className="text-sm leading-none text-zinc-700">
+        {/* Fixed-width venue slot: "서울(학)"/"서울(실)" are longer than the
+            2-char venues, and without a reserved slot they widen the info
+            column and shove the action cluster out of column alignment. */}
+        <span className="inline-block w-14 text-sm leading-none text-zinc-700">
           {venueLabel(game, "short")}
         </span>
 
@@ -149,16 +152,16 @@ export default function GameCard({
       {/* Single-row action cluster on every viewport. justify-between on the
           parent collapses to a small natural gap on phones because the action
           cluster takes most of the remaining width. */}
-      <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
+      <div className="flex shrink-0 items-center gap-1 sm:gap-3">
         {/* Fixed-width slot keeps the badge horizontally centered so it grows
             symmetrically to both sides when the label gets longer. */}
-        <div className="flex w-20 justify-center">
+        <div className="flex w-16 justify-center sm:w-20">
           <JerseyLikeBadge count={likes} onClick={onLike} />
         </div>
         <button
           type="button"
           onClick={onShowReasons}
-          className="whitespace-nowrap rounded-lg px-2 py-1 text-[11px] font-semibold text-sono-navy ring-1 ring-sono-navy/30 transition-colors hover:bg-sono-navy/10 sm:px-3 sm:py-2 sm:text-xs"
+          className="whitespace-nowrap rounded-lg px-1.5 py-1 text-[11px] font-semibold text-sono-navy ring-1 ring-sono-navy/30 transition-colors hover:bg-sono-navy/10 sm:px-3 sm:py-2 sm:text-xs"
         >
           추천 이유 보기
         </button>
