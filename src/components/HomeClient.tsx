@@ -8,6 +8,7 @@ import ReasonModal from "@/src/components/ReasonModal";
 import ReasonsListModal from "@/src/components/ReasonsListModal";
 import SeasonTabs from "@/src/components/SeasonTabs";
 import SortToggle, { type SortMode } from "@/src/components/SortToggle";
+import WelcomeModal from "@/src/components/WelcomeModal";
 import type { GameSchedule } from "@/src/constants/schedule";
 import { ALL_SONO_GAMES, SEASONS, seasonIdOf } from "@/src/constants/schedule-all";
 import {
@@ -338,6 +339,15 @@ export default function HomeClient() {
         game={detailGame}
         open={detailGame !== null}
         onClose={() => setDetailGame(null)}
+      />
+
+      {/* 접속 팝업. ① 경기일 CTA → 오늘 경기 추천이유 모달 열기,
+          ② 10월 CTA → 날짜 검색칸 포커스. */}
+      <WelcomeModal
+        onRecommendToday={(game) => setSubmitGame(game)}
+        onFocusSearch={() => {
+          document.getElementById("game-date-search")?.focus();
+        }}
       />
     </>
   );

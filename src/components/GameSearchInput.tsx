@@ -87,6 +87,7 @@ export default function GameSearchInput({
         경기 날짜 검색 (yymmdd)
       </label>
       <input
+        id="game-date-search"
         type="text"
         inputMode="numeric"
         maxLength={6}
