@@ -7,7 +7,7 @@ import GameDetailModal from "@/src/components/GameDetailModal";
 import ReasonModal from "@/src/components/ReasonModal";
 import ReasonsListModal from "@/src/components/ReasonsListModal";
 import type { GameSchedule } from "@/src/constants/schedule";
-import { ALL_SONO_GAMES } from "@/src/constants/schedule-all";
+import { ALL_SONO_GAMES, SEASONS } from "@/src/constants/schedule-all";
 import {
   addGameWithReason,
   getGamesWithTopReason,
@@ -46,6 +46,8 @@ export default function HomeClient() {
   const [reasonsGame, setReasonsGame] = useState<GameSchedule | null>(null);
   const [detailGame, setDetailGame] = useState<GameSchedule | null>(null);
   const [sortMode, setSortMode] = useState<SortMode>("likes");
+  // 최신 시즌(SEASONS[0] = 26-27)이 기본 선택.
+  const [activeSeason, setActiveSeason] = useState<string>(SEASONS[0].id);
   const [loadError, setLoadError] = useState<string | null>(null);
 
   // Initial load — pull every game that has at least one reason or anon like
@@ -97,11 +99,10 @@ export default function HomeClient() {
   );
 
   const recommendedGames = useMemo(() => {
-    // 전 시즌 통합: 추천/좋아요가 1개 이상인 경기면 시즌 상관없이 노출.
-    // (통합검색으로 등록한 26-27 경기가 사라지지 않도록) — 시즌 탭 도입 시 분리 예정.
-    const filtered = ALL_SONO_GAMES.filter(
-      (g) => totalLikesByDate(g.date) >= 1,
-    );
+    // 리스트는 선택된 시즌 경기만 (검색은 전 시즌 통합 그대로).
+    const seasonGames =
+      SEASONS.find((s) => s.id === activeSeason)?.games ?? ALL_SONO_GAMES;
+    const filtered = seasonGames.filter((g) => totalLikesByDate(g.date) >= 1);
     if (sortMode === "likes") {
       return [...filtered].sort((a, b) => {
         const diff = totalLikesByDate(b.date) - totalLikesByDate(a.date);
@@ -109,7 +110,7 @@ export default function HomeClient() {
       });
     }
     return [...filtered].sort((a, b) => b.date.localeCompare(a.date));
-  }, [totalLikesByDate, sortMode]);
+  }, [totalLikesByDate, sortMode, activeSeason]);
 
   async function handleSubmit(game: GameSchedule, content: string) {
     // Optimistic insert — keep the modal close instant; reconcile if the
@@ -284,7 +285,10 @@ export default function HomeClient() {
       </section>
 
       <section className="mt-8">
-        <SortToggle value={sortMode} onChange={setSortMode} />
+        <div className="flex items-center justify-between gap-2">
+          <SortToggle value={sortMode} onChange={setSortMode} />
+          <SeasonTabs value={activeSeason} onChange={setActiveSeason} />
+        </div>
         <div className="mt-3 overflow-hidden rounded-2xl bg-white/95 ring-1 ring-white/40">
           {loadError ? (
             <p className="px-4 py-8 text-center text-sm text-rose-500">
@@ -331,6 +335,41 @@ export default function HomeClient() {
         onClose={() => setDetailGame(null)}
       />
     </>
+  );
+}
+
+function SeasonTabs({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  // 정렬 토글과 같은 반투명 칩 배경(경기장 사진 위 가독성) + 안쪽은 텍스트버튼.
+  // 왼쪽부터 최신→예전 (SEASONS 배열 순서).
+  return (
+    <div className="inline-flex items-center gap-2 rounded-full bg-white/60 px-3 py-1 ring-1 ring-white/40 backdrop-blur-sm">
+      {SEASONS.map((s, i) => {
+        const selected = value === s.id;
+        return (
+          <div key={s.id} className="flex items-center gap-2">
+            {i > 0 && <span className="text-sono-navy/25">·</span>}
+            <button
+              type="button"
+              onClick={() => onChange(s.id)}
+              aria-pressed={selected}
+              className={`text-xs tabular-nums transition-colors ${
+                selected
+                  ? "font-extrabold text-sono-navy"
+                  : "font-medium text-sono-navy/40 hover:text-sono-navy/70"
+              }`}
+            >
+              {s.label}
+            </button>
+          </div>
+        );
+      })}
+    </div>
   );
 }
 
