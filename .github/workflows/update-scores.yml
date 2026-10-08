@@ -1,0 +1,52 @@
+name: Update KBL Scores
+
+# 26-27 시즌 경기 결과(점수·승패)를 KBL API에서 긁어 schedule-2627.ts에 반영한다.
+# "경기 있는 날만" 돌리려면 불규칙한 60개 날짜를 cron에 하드코딩해야 해서 더 복잡하고
+# 잘 깨진다. 대신 매일 밤 1회 돌리되 "결과가 바뀐 경우에만 커밋"한다 →
+# 실제 커밋/재배포가 생기는 건 경기가 있었던 날 밤뿐(= 원하는 동작).
+# KBL 경기는 보통 19시 시작·21시대 종료 → 넉넉히 밤에 1회 실행.
+on:
+  schedule:
+    - cron: "30 14 * * *" # 매일 14:30 UTC (23:30 KST) — 그날 밤 경기 종료 후
+  workflow_dispatch: {} # Actions 탭에서 수동 실행("Run workflow") 가능
+
+# 결과가 바뀌면 schedule-2627.ts를 커밋·푸시해야 하므로 쓰기 권한 필요.
+permissions:
+  contents: write
+
+jobs:
+  update-scores:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.4.0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install deps (kbl-results 등)
+        run: pnpm install --frozen-lockfile
+
+      - name: Fetch latest KBL results
+        run: node scripts/fetch-kbl-2627.mjs
+
+      - name: Commit only if scores changed
+        run: |
+          if git diff --quiet -- src/constants/schedule-2627.ts; then
+            echo "✅ 변경 없음 — 경기 결과 업데이트 없음, 커밋 생략."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add src/constants/schedule-2627.ts
+            git commit -m "chore: 26-27 스코어 자동 업데이트"
+            git push
+            echo "🏀 경기 결과 변경 감지 → 커밋·푸시 완료 (Vercel 재배포 트리거)."
+          fi
