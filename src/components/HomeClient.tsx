@@ -6,6 +6,8 @@ import GameSearchInput from "@/src/components/GameSearchInput";
 import GameDetailModal from "@/src/components/GameDetailModal";
 import ReasonModal from "@/src/components/ReasonModal";
 import ReasonsListModal from "@/src/components/ReasonsListModal";
+import SeasonTabs from "@/src/components/SeasonTabs";
+import SortToggle, { type SortMode } from "@/src/components/SortToggle";
 import type { GameSchedule } from "@/src/constants/schedule";
 import { ALL_SONO_GAMES, SEASONS, seasonIdOf } from "@/src/constants/schedule-all";
 import {
@@ -17,8 +19,6 @@ import {
   updateLike,
   type Reason as DbReason,
 } from "@/src/services/gameService";
-
-type SortMode = "likes" | "latest";
 
 interface UiReason {
   id: string;
@@ -341,76 +341,5 @@ export default function HomeClient() {
         onClose={() => setDetailGame(null)}
       />
     </>
-  );
-}
-
-function SeasonTabs({
-  value,
-  onChange,
-}: {
-  value: string;
-  onChange: (v: string) => void;
-}) {
-  // 정렬 토글과 같은 반투명 칩 배경(경기장 사진 위 가독성) + 안쪽은 텍스트버튼.
-  // 왼쪽부터 최신→예전 (SEASONS 배열 순서).
-  return (
-    // shrink-0 → 좁으면 압축되지 않고 통째로 아랫줄로 내려감(부모 flex-wrap).
-    <div className="inline-flex shrink-0 items-center gap-2 rounded-full bg-white/60 px-3 py-1 ring-1 ring-white/40 backdrop-blur-sm">
-      {SEASONS.map((s, i) => {
-        const selected = value === s.id;
-        return (
-          <div key={s.id} className="flex items-center gap-2">
-            {i > 0 && <span className="text-sono-navy/25">·</span>}
-            <button
-              type="button"
-              onClick={() => onChange(s.id)}
-              aria-pressed={selected}
-              className={`whitespace-nowrap text-xs tabular-nums transition-colors ${
-                selected
-                  ? "font-extrabold text-sono-navy"
-                  : "font-medium text-sono-navy/40 hover:text-sono-navy/70"
-              }`}
-            >
-              {s.label}
-            </button>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-function SortToggle({
-  value,
-  onChange,
-}: {
-  value: SortMode;
-  onChange: (v: SortMode) => void;
-}) {
-  const options: { value: SortMode; label: string }[] = [
-    { value: "likes", label: "좋아요순" },
-    { value: "latest", label: "최신순" },
-  ];
-  return (
-    <div className="inline-flex shrink-0 rounded-full bg-white/60 p-0.5 ring-1 ring-white/40 backdrop-blur-sm">
-      {options.map((o) => {
-        const selected = value === o.value;
-        return (
-          <button
-            key={o.value}
-            type="button"
-            onClick={() => onChange(o.value)}
-            aria-pressed={selected}
-            className={`whitespace-nowrap rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
-              selected
-                ? "bg-sono-navy text-white"
-                : "text-sono-navy/70 hover:text-sono-navy"
-            }`}
-          >
-            {o.label}
-          </button>
-        );
-      })}
-    </div>
   );
 }
