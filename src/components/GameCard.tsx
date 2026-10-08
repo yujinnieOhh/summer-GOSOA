@@ -125,31 +125,31 @@ export default function GameCard({
   const highlightUrl = getHighlightSearchUrl(game);
 
   return (
-    <article className="flex items-center gap-2 border-b border-sono-navy/15 bg-white/90 px-3 py-3 last:border-b-0 sm:gap-4 sm:px-4">
+    <article className="flex items-center justify-between gap-2 border-b border-sono-navy/15 bg-white/90 px-3 py-3 last:border-b-0 sm:gap-4 sm:px-4">
       {/* Tapping the info column opens the detail popup — users kept
           dead-clicking here expecting the score (Clarity 6월). */}
+      {/* min-w-0 → 좁은 폭에선 이 info 칼럼이 먼저 줄어(구장명 말줄임)들어서
+          오른쪽 액션 묶음(하이라이트 등)이 잘리지 않음. 액션이 justify-between으로
+          우측 고정되므로 구장 고정폭 없이도 세로 정렬이 맞음. */}
       <button
         type="button"
         onClick={onShowDetail}
         aria-label="경기 상세 정보 보기"
-        className="-my-1 -ml-1.5 flex shrink-0 items-center gap-1.5 rounded-sm px-1.5 py-1 text-left tabular-nums transition-colors hover:bg-sono-navy/5 active:bg-sono-navy/10"
+        className="-my-1 -ml-1.5 flex min-w-0 items-center gap-1.5 rounded-sm px-1.5 py-1 text-left tabular-nums transition-colors hover:bg-sono-navy/5 active:bg-sono-navy/10"
       >
         {/* Date column — tune font here (size/weight/family). */}
-        <span className="font-court text-sm text-zinc-700">
+        <span className="shrink-0 font-court text-sm text-zinc-700">
           {dateLabel(game.date)}
         </span>
-        {/* Fixed-width venue slot: "서울(학)"/"서울(실)" are longer than the
-            2-char venues, and without a reserved slot they widen the info
-            column and shove the action cluster out of column alignment. */}
-        <span className="inline-block w-14 text-sm leading-none text-zinc-700">
+        {/* 구장명: 좁으면 말줄임(…)으로 양보 — 날짜는 유지. */}
+        <span className="truncate text-sm leading-none text-zinc-700">
           {venueLabel(game, "short")}
         </span>
         {/* 결과 이모지는 리스트에서 뺌(상세 팝업 카드에만 노출) — 탭하면 상세. */}
       </button>
 
-      {/* Single-row action cluster on every viewport. justify-between on the
-          parent collapses to a small natural gap on phones because the action
-          cluster takes most of the remaining width. */}
+      {/* 액션 묶음은 항상 우측 고정·전부 노출(shrink-0). 화면이 넓어도 여백은
+          info와 이 묶음 사이로 분산되어 우측에 큰 빈 공간이 생기지 않음. */}
       <div className="flex shrink-0 items-center gap-1 sm:gap-3">
         {/* Fixed-width slot keeps the badge horizontally centered so it grows
             symmetrically to both sides when the label gets longer. */}
