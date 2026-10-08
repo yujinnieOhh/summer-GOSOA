@@ -1,10 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import {
-  SONO_SCHEDULE_2526,
-  type GameSchedule,
-} from "@/src/constants/schedule";
+import type { GameSchedule } from "@/src/constants/schedule";
+import { ALL_SONO_GAMES } from "@/src/constants/schedule-all";
 import { venueLabel } from "@/src/lib/venue";
 import { UPCOMING_LABEL, isUpcoming } from "@/src/lib/schedule-ui";
 
@@ -71,7 +69,8 @@ export default function GameSearchInput({
   const suggestions = useMemo(() => {
     const cleaned = query.replace(/\D/g, "");
     if (cleaned.length === 0) return [];
-    return SONO_SCHEDULE_2526.filter((g) => g.date.startsWith(cleaned)).slice(
+    // 전 시즌 통합 검색: 날짜 접두사로 모든 시즌 경기를 매칭.
+    return ALL_SONO_GAMES.filter((g) => g.date.startsWith(cleaned)).slice(
       0,
       MAX_SUGGESTIONS,
     );

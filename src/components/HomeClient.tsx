@@ -6,10 +6,8 @@ import GameSearchInput from "@/src/components/GameSearchInput";
 import GameDetailModal from "@/src/components/GameDetailModal";
 import ReasonModal from "@/src/components/ReasonModal";
 import ReasonsListModal from "@/src/components/ReasonsListModal";
-import {
-  SONO_SCHEDULE_2526,
-  type GameSchedule,
-} from "@/src/constants/schedule";
+import type { GameSchedule } from "@/src/constants/schedule";
+import { ALL_SONO_GAMES } from "@/src/constants/schedule-all";
 import {
   addGameWithReason,
   getGamesWithTopReason,
@@ -99,7 +97,9 @@ export default function HomeClient() {
   );
 
   const recommendedGames = useMemo(() => {
-    const filtered = SONO_SCHEDULE_2526.filter(
+    // 전 시즌 통합: 추천/좋아요가 1개 이상인 경기면 시즌 상관없이 노출.
+    // (통합검색으로 등록한 26-27 경기가 사라지지 않도록) — 시즌 탭 도입 시 분리 예정.
+    const filtered = ALL_SONO_GAMES.filter(
       (g) => totalLikesByDate(g.date) >= 1,
     );
     if (sortMode === "likes") {
@@ -310,7 +310,7 @@ export default function HomeClient() {
       </section>
 
       <ReasonModal
-        game={submitGame ?? SONO_SCHEDULE_2526[0]}
+        game={submitGame ?? ALL_SONO_GAMES[0]}
         open={submitGame !== null}
         onClose={() => setSubmitGame(null)}
         onSubmit={(content) => submitGame && handleSubmit(submitGame, content)}
