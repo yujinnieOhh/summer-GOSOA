@@ -69,7 +69,7 @@ export default function GameDetailModal({
         onClick={onClose}
         className="absolute inset-0 bg-sono-navy/45 backdrop-blur-sm"
       />
-      <div className="relative w-full max-w-md rounded-lg bg-white p-5 shadow-2xl shadow-b-5xl shadow-sono-navy/50 ring-1 ring-sono-navy/10">
+      <div className="relative w-full max-w-md rounded-lg bg-white p-5 shadow-[0_24px_48px_-12px_rgba(33,61,101,0.45)] ring-1 ring-sono-navy/10">
         <button
           type="button"
           aria-label="닫기"
