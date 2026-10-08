@@ -1,4 +1,5 @@
 import HomeClient from "@/src/components/HomeClient";
+import Footer from "@/src/components/Footer";
 
 export default function Home() {
   return (
@@ -38,6 +39,8 @@ export default function Home() {
       <main className="mx-auto -mt-4 w-full max-w-3xl flex-1 px-6 pb-16">
         <HomeClient />
       </main>
+
+      <Footer />
     </div>
   );
 }
