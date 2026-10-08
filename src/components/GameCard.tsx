@@ -14,8 +14,9 @@ interface GameCardProps {
   onShowDetail?: () => void;
 }
 
-function mmdd(yymmdd: string) {
-  return `${yymmdd.slice(2, 4)}.${yymmdd.slice(4, 6)}`;
+function dateLabel(yymmdd: string) {
+  // 시즌이 여러 개라 연도까지 표시(yy.mm.dd) — 결과 이모지를 뺀 자리에 들어감.
+  return `${yymmdd.slice(0, 2)}.${yymmdd.slice(2, 4)}.${yymmdd.slice(4, 6)}`;
 }
 
 export function JerseyLikeBadge({
@@ -135,7 +136,7 @@ export default function GameCard({
       >
         {/* Date column — tune font here (size/weight/family). */}
         <span className="font-court text-sm text-zinc-700">
-          {mmdd(game.date)}
+          {dateLabel(game.date)}
         </span>
         {/* Fixed-width venue slot: "서울(학)"/"서울(실)" are longer than the
             2-char venues, and without a reserved slot they widen the info
