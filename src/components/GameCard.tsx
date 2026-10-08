@@ -141,8 +141,10 @@ export default function GameCard({
         <span className="shrink-0 font-court text-sm text-zinc-700">
           {dateLabel(game.date)}
         </span>
-        {/* 구장명: 좁으면 말줄임(…)으로 양보 — 날짜는 유지. */}
-        <span className="truncate text-sm leading-none text-zinc-700">
+        {/* 구장명: 좁으면 말줄임(…)으로 양보 — 날짜는 유지.
+            leading-none 금지: truncate의 overflow:hidden과 겹치면 줄 박스가
+            글자보다 작아 한글/괄호 윗부분이 세로로 잘림. 기본 줄높이 사용. */}
+        <span className="truncate text-sm text-zinc-700">
           {venueLabel(game, "short")}
         </span>
         {/* 결과 이모지는 리스트에서 뺌(상세 팝업 카드에만 노출) — 탭하면 상세. */}
