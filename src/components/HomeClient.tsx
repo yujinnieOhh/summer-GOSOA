@@ -7,7 +7,7 @@ import GameDetailModal from "@/src/components/GameDetailModal";
 import ReasonModal from "@/src/components/ReasonModal";
 import ReasonsListModal from "@/src/components/ReasonsListModal";
 import type { GameSchedule } from "@/src/constants/schedule";
-import { ALL_SONO_GAMES, SEASONS } from "@/src/constants/schedule-all";
+import { ALL_SONO_GAMES, SEASONS, seasonIdOf } from "@/src/constants/schedule-all";
 import {
   addGameWithReason,
   getGamesWithTopReason,
@@ -113,6 +113,10 @@ export default function HomeClient() {
   }, [totalLikesByDate, sortMode, activeSeason]);
 
   async function handleSubmit(game: GameSchedule, content: string) {
+    // 추천한 경기가 속한 시즌 탭으로 자동 전환 — 다른 시즌 탭에서 검색·추천해도
+    // 리스트에서 바로 보이도록(안 그러면 "추천했는데 안 보이는" 상태가 됨).
+    setActiveSeason(seasonIdOf(game.date));
+
     // Optimistic insert — keep the modal close instant; reconcile if the
     // server returns a different id/likes count.
     const tempId = `tmp-${game.date}-${Date.now()}`;
