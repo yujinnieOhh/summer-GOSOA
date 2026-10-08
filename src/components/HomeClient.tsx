@@ -289,7 +289,9 @@ export default function HomeClient() {
       </section>
 
       <section className="mt-8">
-        <div className="flex items-center justify-between gap-2">
+        {/* 데스크톱은 한 줄에 다 들어가고, 모바일처럼 좁으면 시즌 탭만 아랫줄로
+            내려감(flex-wrap). 시즌이 4개+라 한 줄 강제 시 잘리므로 wrap이 가장 깔끔. */}
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <SortToggle value={sortMode} onChange={setSortMode} />
           <SeasonTabs value={activeSeason} onChange={setActiveSeason} />
         </div>
@@ -352,7 +354,8 @@ function SeasonTabs({
   // 정렬 토글과 같은 반투명 칩 배경(경기장 사진 위 가독성) + 안쪽은 텍스트버튼.
   // 왼쪽부터 최신→예전 (SEASONS 배열 순서).
   return (
-    <div className="inline-flex items-center gap-2 rounded-full bg-white/60 px-3 py-1 ring-1 ring-white/40 backdrop-blur-sm">
+    // shrink-0 → 좁으면 압축되지 않고 통째로 아랫줄로 내려감(부모 flex-wrap).
+    <div className="inline-flex shrink-0 items-center gap-2 rounded-full bg-white/60 px-3 py-1 ring-1 ring-white/40 backdrop-blur-sm">
       {SEASONS.map((s, i) => {
         const selected = value === s.id;
         return (
@@ -362,7 +365,7 @@ function SeasonTabs({
               type="button"
               onClick={() => onChange(s.id)}
               aria-pressed={selected}
-              className={`text-xs tabular-nums transition-colors ${
+              className={`whitespace-nowrap text-xs tabular-nums transition-colors ${
                 selected
                   ? "font-extrabold text-sono-navy"
                   : "font-medium text-sono-navy/40 hover:text-sono-navy/70"
@@ -389,7 +392,7 @@ function SortToggle({
     { value: "latest", label: "최신순" },
   ];
   return (
-    <div className="inline-flex rounded-full bg-white/60 p-0.5 ring-1 ring-white/40 backdrop-blur-sm">
+    <div className="inline-flex shrink-0 rounded-full bg-white/60 p-0.5 ring-1 ring-white/40 backdrop-blur-sm">
       {options.map((o) => {
         const selected = value === o.value;
         return (
@@ -398,7 +401,7 @@ function SortToggle({
             type="button"
             onClick={() => onChange(o.value)}
             aria-pressed={selected}
-            className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
+            className={`whitespace-nowrap rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
               selected
                 ? "bg-sono-navy text-white"
                 : "text-sono-navy/70 hover:text-sono-navy"

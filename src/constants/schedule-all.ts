@@ -1,13 +1,18 @@
 import type { GameSchedule } from "./schedule";
 import { SONO_SCHEDULE_2526 } from "./schedule";
+import { SONO_SCHEDULE_2324 } from "./schedule-2324";
+import { SONO_SCHEDULE_2425 } from "./schedule-2425";
 import { SONO_SCHEDULE_2627 } from "./schedule-2627";
 
 /**
  * 모든 시즌 경기를 하나로 합친 통합 목록 (검색/조회용). 날짜(yymmdd) 오름차순.
- * 시즌 간 날짜가 겹치지 않음(2526: 250920–260513, 2627: 261003–270411)이라
- * date를 그대로 고유 키로 쓸 수 있음. 새 시즌을 추가하면 여기에 spread만 더하면 됨.
+ * 시즌 간 날짜가 겹치지 않음(23-24 ~240331, 24-25 ~250408, 25-26 250920~,
+ * 26-27 261003~)이라 date를 그대로 고유 키로 쓸 수 있음.
+ * 새 시즌을 추가하면 여기와 아래 SEASONS에 더하면 됨.
  */
 export const ALL_SONO_GAMES: GameSchedule[] = [
+  ...SONO_SCHEDULE_2324,
+  ...SONO_SCHEDULE_2425,
   ...SONO_SCHEDULE_2526,
   ...SONO_SCHEDULE_2627,
 ].sort((a, b) => a.date.localeCompare(b.date));
@@ -25,6 +30,8 @@ export interface Season {
 export const SEASONS: Season[] = [
   { id: "2627", label: "26-27", games: SONO_SCHEDULE_2627 },
   { id: "2526", label: "25-26", games: SONO_SCHEDULE_2526 },
+  { id: "2425", label: "24-25", games: SONO_SCHEDULE_2425 },
+  { id: "2324", label: "23-24", games: SONO_SCHEDULE_2324 },
 ];
 
 /** 어떤 경기가 속한 시즌 id. (date 접두사 매칭이 아니라 실제 소속 배열 기준) */
