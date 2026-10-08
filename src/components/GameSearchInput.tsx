@@ -21,18 +21,16 @@ function formatDateLabel(yymmdd: string) {
 }
 
 function GameSummary({ game }: { game: GameSchedule }) {
-  // 예정 경기: 점수 대신 "소노가 이겨주길" — 스코어(0:0) 노출 방지
+  // 예정 경기: 점수 대신 "소노가 이겨주길 vs 상대팀" — 스코어(0:0) 노출 방지.
+  // 멘트=회색 / vs=연회색 / 상대팀=네이비 강조.
   if (isUpcoming(game)) {
     return (
       <span>
+        <span className="text-zinc-500">{UPCOMING_LABEL}</span>
+        <span className="mx-1 text-zinc-300">vs</span>
         <span className="font-jump font-extrabold text-sono-navy">
-          {game.homeTeamName}
+          {game.opponentName}
         </span>
-        <span className="mx-1 text-zinc-500">vs</span>
-        <span className="font-jump font-extrabold text-sono-navy">
-          {game.awayTeamName}
-        </span>
-        <span className="ml-1.5 text-zinc-400">· {UPCOMING_LABEL}</span>
       </span>
     );
   }
