@@ -57,10 +57,11 @@ export default function ReasonModal({
         onClick={onClose}
         className="absolute inset-0 bg-sono-navy/45 backdrop-blur-sm"
       />
-      <div className="relative w-full max-w-md rounded-2xl bg-white p-5 shadow-xl ring-1 ring-sono-navy/10">
+      <div className="relative w-full max-w-md rounded-md bg-white p-5 shadow-xl ring-1 ring-sono-navy/10">
         <div className="mb-3">
           <p className="text-xs tracking-widest text-sono-navy/60">
-            {game.date.slice(0, 2)}.{game.date.slice(2, 4)}.{game.date.slice(4, 6)} · {venueLabel(game, "long")}
+            {game.date.slice(0, 2)}.{game.date.slice(2, 4)}.
+            {game.date.slice(4, 6)} · {venueLabel(game, "long")}
           </p>
           <MatchupTitle game={game} id="reason-modal-title" />
         </div>

@@ -69,7 +69,7 @@ export default function GameDetailModal({
         onClick={onClose}
         className="absolute inset-0 bg-sono-navy/45 backdrop-blur-sm"
       />
-      <div className="relative w-full max-w-md rounded-2xl bg-white p-5 shadow-xl ring-1 ring-sono-navy/10">
+      <div className="relative w-full max-w-md rounded-lg bg-white p-5 shadow-2xl shadow-b-5xl shadow-sono-navy/50 ring-1 ring-sono-navy/10">
         <button
           type="button"
           aria-label="닫기"
@@ -80,17 +80,17 @@ export default function GameDetailModal({
         </button>
 
         <p className="text-xs tracking-widest text-sono-navy/60">
-          {game.date.slice(0, 2)}.{game.date.slice(2, 4)}.{game.date.slice(4, 6)}{" "}
-          · {venueLabel(game, "long")}
+          {game.date.slice(0, 2)}.{game.date.slice(2, 4)}.
+          {game.date.slice(4, 6)} · {venueLabel(game, "long")}
         </p>
         <MatchupTitle game={game} id="detail-modal-title" />
 
         <div className="mt-3 flex flex-wrap items-center gap-1.5">
-          <span className="rounded-full bg-sono-sky/20 px-2.5 py-1 text-xs font-medium text-sono-navy">
+          <span className="rounded-full border-2 border-sono-sky/40 px-2.5 py-1 text-xs font-medium text-sono-navy">
             {game.isHome ? "홈경기" : "원정경기"}
           </span>
           {label && (
-            <span className="rounded-full bg-sono-sky/20 px-2.5 py-1 text-xs font-medium text-sono-navy">
+            <span className="rounded-full border-2 border-sono-sky/40 px-2.5 py-1 text-xs font-medium text-sono-navy">
               {game.resultIcon} {label}
             </span>
           )}

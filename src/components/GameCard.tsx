@@ -132,7 +132,7 @@ export default function GameCard({
         type="button"
         onClick={onShowDetail}
         aria-label="경기 상세 정보 보기"
-        className="-my-1 -ml-1.5 flex shrink-0 items-center gap-1.5 rounded-lg px-1.5 py-1 text-left tabular-nums transition-colors hover:bg-sono-navy/5 active:bg-sono-navy/10"
+        className="-my-1 -ml-1.5 flex shrink-0 items-center gap-1.5 rounded-sm px-1.5 py-1 text-left tabular-nums transition-colors hover:bg-sono-navy/5 active:bg-sono-navy/10"
       >
         {/* Date column — tune font here (size/weight/family). */}
         <span className="font-court text-sm text-zinc-700">
@@ -159,7 +159,7 @@ export default function GameCard({
         <button
           type="button"
           onClick={onShowReasons}
-          className="whitespace-nowrap rounded-lg px-1.5 py-1 text-[11px] font-semibold text-sono-navy ring-1 ring-sono-navy/30 transition-colors hover:bg-sono-navy/10 sm:px-3 sm:py-2 sm:text-xs"
+          className="whitespace-nowrap rounded-sm px-1.5 py-1.5 text-[11px] font-semibold text-sono-navy ring-1 ring-sono-navy/30 transition-colors hover:bg-sono-navy/10 sm:px-3 sm:py-2 sm:text-xs"
         >
           추천 이유 보기
         </button>
@@ -171,7 +171,7 @@ export default function GameCard({
           href={highlightUrl}
           aria-label="경기 하이라이트 보기"
           title="경기 하이라이트"
-          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-sono-navy ring-1 ring-sono-navy/30 transition-colors hover:bg-sono-navy/10 sm:h-9 sm:w-9"
+          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-sono-navy ring-1 ring-sono-navy/30 transition-colors hover:bg-sono-navy/10 sm:h-9 sm:w-9"
         >
           <HighlightIcon />
         </a>

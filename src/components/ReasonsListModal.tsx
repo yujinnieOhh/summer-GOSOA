@@ -72,10 +72,11 @@ export default function ReasonsListModal({
         onClick={onClose}
         className="absolute inset-0 bg-sono-navy/45 backdrop-blur-sm"
       />
-      <div className="relative flex max-h-[80vh] w-full max-w-md flex-col rounded-2xl bg-white p-5 shadow-xl ring-1 ring-sono-navy/10">
+      <div className="relative flex max-h-[80vh] w-full max-w-md flex-col rounded-md bg-white p-5 shadow-xl ring-1 ring-sono-navy/10">
         <div className="mb-3 shrink-0">
           <p className="text-xs tracking-widest text-sono-navy/60">
-            {game.date.slice(0, 2)}.{game.date.slice(2, 4)}.{game.date.slice(4, 6)} · {venueLabel(game, "long")}
+            {game.date.slice(0, 2)}.{game.date.slice(2, 4)}.
+            {game.date.slice(4, 6)} · {venueLabel(game, "long")}
           </p>
           <MatchupTitle game={game} id="reasons-modal-title" />
         </div>
@@ -89,10 +90,7 @@ export default function ReasonsListModal({
             sorted.map((r) => {
               const liked = likedIds.has(r.id);
               return (
-                <li
-                  key={r.id}
-                  className="flex items-center gap-3 py-3"
-                >
+                <li key={r.id} className="flex items-center gap-3 py-3">
                   <p className="flex-1 text-sm leading-relaxed text-zinc-800">
                     {r.content}
                   </p>

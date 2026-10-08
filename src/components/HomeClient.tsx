@@ -289,13 +289,13 @@ export default function HomeClient() {
       </section>
 
       <section className="mt-8">
-        {/* 데스크톱은 한 줄에 다 들어가고, 모바일처럼 좁으면 시즌 탭만 아랫줄로
-            내려감(flex-wrap). 시즌이 4개+라 한 줄 강제 시 잘리므로 wrap이 가장 깔끔. */}
-        <div className="flex flex-wrap items-center justify-between gap-2">
+        {/* 정렬 토글은 왼쪽 고정, 시즌 탭은 남은 폭을 채우며 넘치면 가로 스크롤
+            (디폴트 시즌 가운데 기준). 한 줄 유지. */}
+        <div className="flex items-center gap-2">
           <SortToggle value={sortMode} onChange={setSortMode} />
           <SeasonTabs value={activeSeason} onChange={setActiveSeason} />
         </div>
-        <div className="mt-3 overflow-hidden rounded-2xl bg-white/95 ring-1 ring-white/40">
+        <div className="mt-3 overflow-hidden rounded-md bg-white/95 ring-1 ring-white/40">
           {loadError ? (
             <p className="px-4 py-8 text-center text-sm text-rose-500">
               {loadError}

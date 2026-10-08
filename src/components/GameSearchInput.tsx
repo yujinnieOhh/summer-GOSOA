@@ -70,7 +70,7 @@ export default function GameSearchInput({
     // 전 시즌 통합 검색: 날짜 접두사로 모든 시즌 경기를 매칭.
     return ALL_SONO_GAMES.filter((g) => g.date.startsWith(cleaned)).slice(
       0,
-      MAX_SUGGESTIONS,
+      MAX_SUGGESTIONS
     );
   }, [query]);
 
@@ -91,7 +91,7 @@ export default function GameSearchInput({
         inputMode="numeric"
         maxLength={6}
         value={query}
-        placeholder="예: 251008"
+        placeholder="예: 261003"
         onChange={(e) => {
           setQuery(e.target.value.replace(/\D/g, ""));
           setSelected(null);
@@ -99,11 +99,11 @@ export default function GameSearchInput({
         }}
         onFocus={() => setOpen(true)}
         onBlur={() => setTimeout(() => setOpen(false), 120)}
-        className="w-full rounded-lg bg-white/95 px-4 py-3 text-sono-navy placeholder:text-zinc-400 outline-none ring-1 ring-white/60 focus:ring-2 focus:ring-sono-navy tabular-nums"
+        className="w-full rounded-md bg-white/95 px-4 py-3 text-sono-navy placeholder:text-zinc-400 outline-none ring-1 ring-white/60 focus:ring-2 focus:ring-sono-navy tabular-nums"
       />
 
       {open && suggestions.length > 0 && (
-        <ul className="absolute z-10 mt-1.5 w-full overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-sono-navy/10">
+        <ul className="absolute z-10 mt-1.5 w-full overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-sono-navy/10">
           {suggestions.map((game) => (
             <li key={game.date}>
               <button
@@ -123,7 +123,7 @@ export default function GameSearchInput({
       )}
 
       {selected && (
-        <div className="mt-3 flex items-center justify-between gap-3 rounded-lg bg-white/90 px-4 py-3 text-sm">
+        <div className="mt-3 flex items-center justify-between gap-3 rounded-md bg-white/90 px-4 py-3 text-sm">
           <div className="min-w-0">
             <div className="mb-1 text-xs text-zinc-500 tabular-nums">
               {formatDateLabel(selected.date)} · {venueLabel(selected, "long")}
@@ -133,7 +133,7 @@ export default function GameSearchInput({
           <button
             type="button"
             onClick={() => onRecommend?.(selected)}
-            className="shrink-0 rounded-lg bg-sono-navy px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-sono-navy/90"
+            className="shrink-0 rounded-md bg-sono-navy px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-sono-navy/90"
           >
             추천하기
           </button>
