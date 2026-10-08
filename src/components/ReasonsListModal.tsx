@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import type { GameSchedule } from "@/src/constants/schedule";
 import { formatCount } from "@/src/lib/format";
 import { venueLabel } from "@/src/lib/venue";
+import { MatchupTitle } from "@/src/components/Matchup";
 
 interface Reason {
   id: string;
@@ -57,7 +58,6 @@ export default function ReasonsListModal({
   if (!open || !game) return null;
 
   const sorted = [...reasons].sort((a, b) => b.likes - a.likes);
-  const homeWon = game.homeScore > game.awayScore;
 
   return (
     <div
@@ -77,18 +77,7 @@ export default function ReasonsListModal({
           <p className="text-xs tracking-widest text-sono-navy/60">
             {game.date.slice(0, 2)}.{game.date.slice(2, 4)}.{game.date.slice(4, 6)} · {venueLabel(game, "long")}
           </p>
-          <h2
-            id="reasons-modal-title"
-            className="mt-1 font-court text-2xl text-sono-navy"
-          >
-            <span className={homeWon ? "" : "text-zinc-400"}>
-              {game.homeTeamName} {game.homeScore}
-            </span>
-            <span className="mx-1.5 text-sono-navy/40">:</span>
-            <span className={!homeWon ? "" : "text-zinc-400"}>
-              {game.awayTeamName} {game.awayScore}
-            </span>
-          </h2>
+          <MatchupTitle game={game} id="reasons-modal-title" />
         </div>
 
         <ul className="min-h-0 flex-1 divide-y divide-sono-navy/10 overflow-y-auto">

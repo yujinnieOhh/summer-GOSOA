@@ -6,6 +6,7 @@ import {
   type GameSchedule,
 } from "@/src/constants/schedule";
 import { venueLabel } from "@/src/lib/venue";
+import { UPCOMING_LABEL, isUpcoming } from "@/src/lib/schedule-ui";
 
 interface GameSearchInputProps {
   onSelect?: (game: GameSchedule) => void;
@@ -22,6 +23,22 @@ function formatDateLabel(yymmdd: string) {
 }
 
 function GameSummary({ game }: { game: GameSchedule }) {
+  // 예정 경기: 점수 대신 "소노가 이겨주길" — 스코어(0:0) 노출 방지
+  if (isUpcoming(game)) {
+    return (
+      <span>
+        <span className="font-jump font-extrabold text-sono-navy">
+          {game.homeTeamName}
+        </span>
+        <span className="mx-1 text-zinc-500">vs</span>
+        <span className="font-jump font-extrabold text-sono-navy">
+          {game.awayTeamName}
+        </span>
+        <span className="ml-1.5 text-zinc-400">· {UPCOMING_LABEL}</span>
+      </span>
+    );
+  }
+
   const homeWon = game.homeScore > game.awayScore;
   const homeClass = homeWon
     ? "font-jump font-extrabold text-sono-navy"

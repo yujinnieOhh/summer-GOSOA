@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { GameSchedule } from "@/src/constants/schedule";
 import { venueLabel } from "@/src/lib/venue";
+import { MatchupTitle } from "@/src/components/Matchup";
 
 interface ReasonModalProps {
   game: GameSchedule;
@@ -42,7 +43,6 @@ export default function ReasonModal({
 
   const trimmed = value.trim();
   const canSubmit = trimmed.length > 0;
-  const homeWon = game.homeScore > game.awayScore;
 
   return (
     <div
@@ -62,18 +62,7 @@ export default function ReasonModal({
           <p className="text-xs tracking-widest text-sono-navy/60">
             {game.date.slice(0, 2)}.{game.date.slice(2, 4)}.{game.date.slice(4, 6)} · {venueLabel(game, "long")}
           </p>
-          <h2
-            id="reason-modal-title"
-            className="mt-1 font-court text-2xl text-sono-navy"
-          >
-            <span className={homeWon ? "" : "text-zinc-400"}>
-              {game.homeTeamName} {game.homeScore}
-            </span>
-            <span className="mx-1.5 text-sono-navy/40">:</span>
-            <span className={!homeWon ? "" : "text-zinc-400"}>
-              {game.awayTeamName} {game.awayScore}
-            </span>
-          </h2>
+          <MatchupTitle game={game} id="reason-modal-title" />
         </div>
 
         <label className="block text-sm font-medium text-sono-navy">

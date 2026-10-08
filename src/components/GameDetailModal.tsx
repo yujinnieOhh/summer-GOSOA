@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import type { GameSchedule } from "@/src/constants/schedule";
 import { venueLabel } from "@/src/lib/venue";
+import { MatchupTitle } from "@/src/components/Matchup";
 
 interface GameDetailModalProps {
   game: GameSchedule | null;
@@ -29,8 +30,7 @@ function CloseIcon() {
 function resultLabel(icon: string): string {
   if (icon === "🩵") return "소노 승";
   if (icon === "💔") return "소노 패";
-  if (icon === "⏳") return "경기 예정";
-  return "";
+  return ""; // 예정(⏳)이면 결과 칩 숨김 — 매치업에 "소노가 이겨주길"로 표시
 }
 
 /**
@@ -54,7 +54,6 @@ export default function GameDetailModal({
 
   if (!open || !game) return null;
 
-  const homeWon = game.homeScore > game.awayScore;
   const label = resultLabel(game.resultIcon);
 
   return (
@@ -84,18 +83,7 @@ export default function GameDetailModal({
           {game.date.slice(0, 2)}.{game.date.slice(2, 4)}.{game.date.slice(4, 6)}{" "}
           · {venueLabel(game, "long")}
         </p>
-        <h2
-          id="detail-modal-title"
-          className="mt-1 font-court text-2xl text-sono-navy"
-        >
-          <span className={homeWon ? "" : "text-zinc-400"}>
-            {game.homeTeamName} {game.homeScore}
-          </span>
-          <span className="mx-1.5 text-sono-navy/40">:</span>
-          <span className={!homeWon ? "" : "text-zinc-400"}>
-            {game.awayTeamName} {game.awayScore}
-          </span>
-        </h2>
+        <MatchupTitle game={game} id="detail-modal-title" />
 
         <div className="mt-3 flex flex-wrap items-center gap-1.5">
           <span className="rounded-full bg-sono-sky/20 px-2.5 py-1 text-xs font-medium text-sono-navy">
