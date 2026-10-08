@@ -143,10 +143,7 @@ export default function GameCard({
         <span className="inline-block w-14 text-sm leading-none text-zinc-700">
           {venueLabel(game, "short")}
         </span>
-
-        <span className="text-base leading-none" aria-hidden="true">
-          {game.resultIcon}
-        </span>
+        {/* 결과 이모지는 리스트에서 뺌(상세 팝업 카드에만 노출) — 탭하면 상세. */}
       </button>
 
       {/* Single-row action cluster on every viewport. justify-between on the
