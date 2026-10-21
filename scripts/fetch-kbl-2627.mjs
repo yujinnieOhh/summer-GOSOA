@@ -52,6 +52,14 @@ async function fetchSeasonMatches() {
   return response.json();
 }
 
+// EASL(동아시아 슈퍼리그) 상대팀 메타 — API가 내려주는 한글명 부분일치로 매칭.
+// 원정 경기 장소는 상대팀 기준 국가/도시로 표시(홈은 고양). 소노 첫 EASL = 26-27.
+const EASL_TEAMS = [
+  { key: "TSG", nameEn: "TSG GhostHawks", flag: "🇹🇼", country: "대만", city: "가오슝" },
+  { key: "알바크", nameEn: "Alvark Tokyo", flag: "🇯🇵", country: "일본", city: "다치카와" },
+  { key: "고비", nameEn: "South Gobi Broncos", flag: "🇲🇳", country: "몽골", city: "울란바토르" },
+];
+
 async function saveSchedule() {
   console.log("🏀 KBL 26-27 시즌 전체 일정을 가져옵니다...");
   const payload = await fetchSeasonMatches();
@@ -76,20 +84,38 @@ async function saveSchedule() {
 
     const venueName = match.venue?.shortName || match.venue?.name || "";
 
-    return {
+    // EASL 상대면 영문명+국기/국가/도시로 보강(KBL 경기는 그대로 → 기존 출력과 동일).
+    const easl = EASL_TEAMS.find((e) => opponent.name.includes(e.key));
+    const easlName = easl ? `${easl.nameEn} ${easl.flag}` : null;
+
+    const game = {
       date: match.date ? match.date.replace(/-/g, "").slice(2) : "",
-      opponentName: opponent.name,
-      opponentCity: opponent.city,
+      opponentName: easlName ?? opponent.name,
+      opponentCity: easl ? easl.city : opponent.city,
       sonoScore: isSonoHome ? hScore : aScore,
       opponentScore: isSonoHome ? aScore : hScore,
-      venue: venueName.includes("고양") ? "고양" : opponent.city,
+      venue: easl
+        ? isSonoHome
+          ? "고양"
+          : easl.country
+        : venueName.includes("고양")
+          ? "고양"
+          : opponent.city,
       resultIcon: !finished ? "⏳" : isWin ? "🩵" : "💔",
       isHome: isSonoHome,
-      homeTeamName: home.name,
-      awayTeamName: away.name,
+      homeTeamName: easlName && !isSonoHome ? easlName : home.name,
+      awayTeamName: easlName && isSonoHome ? easlName : away.name,
       homeScore: hScore,
       awayScore: aScore,
     };
+
+    if (easl) {
+      game.competition = "EASL";
+      game.opponentFlag = easl.flag;
+      game.opponentCountry = easl.country;
+    }
+
+    return game;
   });
 
   if (allMatches.length === 0) {

@@ -141,6 +141,12 @@ export default function GameCard({
         <span className="shrink-0 font-court text-sm text-zinc-700">
           {dateLabel(game.date)}
         </span>
+        {/* EASL 경기는 KBL과 구분되게 배지 — 특히 홈경기는 장소가 "고양"으로 같아 구분 필요. */}
+        {game.competition === "EASL" && (
+          <span className="shrink-0 rounded bg-sono-sky/25 px-1 py-0.5 text-[10px] font-extrabold leading-none text-sono-navy">
+            EASL
+          </span>
+        )}
         {/* 구장명: 좁으면 말줄임(…)으로 양보 — 날짜는 유지.
             leading-none 금지: truncate의 overflow:hidden과 겹치면 줄 박스가
             글자보다 작아 한글/괄호 윗부분이 세로로 잘림. 기본 줄높이 사용. */}

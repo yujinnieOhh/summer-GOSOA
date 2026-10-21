@@ -86,6 +86,11 @@ export default function GameDetailModal({
         <MatchupTitle game={game} id="detail-modal-title" />
 
         <div className="mt-3 flex flex-wrap items-center gap-1.5">
+          {game.competition === "EASL" && (
+            <span className="rounded-full bg-sono-navy px-2.5 py-1 text-xs font-bold text-white">
+              EASL
+            </span>
+          )}
           <span className="rounded-full border-2 border-sono-sky/40 px-2.5 py-1 text-xs font-medium text-sono-navy">
             {game.isHome ? "홈경기" : "원정경기"}
           </span>

@@ -109,6 +109,9 @@ export interface GameSchedule {
   awayTeamName: string;
   homeScore: number;
   awayScore: number;
+  competition?: "EASL";
+  opponentFlag?: string;
+  opponentCountry?: string;
 }
 
 export const SONO_SCHEDULE_2526: GameSchedule[] = ${JSON.stringify(allMatches, null, 2)};

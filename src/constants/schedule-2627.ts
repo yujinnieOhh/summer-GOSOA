@@ -102,17 +102,20 @@ export const SONO_SCHEDULE_2627: GameSchedule[] = [
   },
   {
     "date": "261021",
-    "opponentName": "TSG 고스트호크스",
-    "opponentCity": "기타",
+    "opponentName": "TSG GhostHawks 🇹🇼",
+    "opponentCity": "가오슝",
     "sonoScore": 0,
     "opponentScore": 0,
-    "venue": "기타",
+    "venue": "대만",
     "resultIcon": "⏳",
     "isHome": false,
-    "homeTeamName": "TSG 고스트호크스",
+    "homeTeamName": "TSG GhostHawks 🇹🇼",
     "awayTeamName": "소노",
     "homeScore": 0,
-    "awayScore": 0
+    "awayScore": 0,
+    "competition": "EASL",
+    "opponentFlag": "🇹🇼",
+    "opponentCountry": "대만"
   },
   {
     "date": "261024",
@@ -242,17 +245,20 @@ export const SONO_SCHEDULE_2627: GameSchedule[] = [
   },
   {
     "date": "261118",
-    "opponentName": "사우스 고비 브롱코스",
-    "opponentCity": "기타",
+    "opponentName": "South Gobi Broncos 🇲🇳",
+    "opponentCity": "울란바토르",
     "sonoScore": 0,
     "opponentScore": 0,
     "venue": "고양",
     "resultIcon": "⏳",
     "isHome": true,
     "homeTeamName": "소노",
-    "awayTeamName": "사우스 고비 브롱코스",
+    "awayTeamName": "South Gobi Broncos 🇲🇳",
     "homeScore": 0,
-    "awayScore": 0
+    "awayScore": 0,
+    "competition": "EASL",
+    "opponentFlag": "🇲🇳",
+    "opponentCountry": "몽골"
   },
   {
     "date": "261203",
@@ -284,17 +290,20 @@ export const SONO_SCHEDULE_2627: GameSchedule[] = [
   },
   {
     "date": "261209",
-    "opponentName": "알바크 도쿄",
-    "opponentCity": "기타",
+    "opponentName": "Alvark Tokyo 🇯🇵",
+    "opponentCity": "다치카와",
     "sonoScore": 0,
     "opponentScore": 0,
     "venue": "고양",
     "resultIcon": "⏳",
     "isHome": true,
     "homeTeamName": "소노",
-    "awayTeamName": "알바크 도쿄",
+    "awayTeamName": "Alvark Tokyo 🇯🇵",
     "homeScore": 0,
-    "awayScore": 0
+    "awayScore": 0,
+    "competition": "EASL",
+    "opponentFlag": "🇯🇵",
+    "opponentCountry": "일본"
   },
   {
     "date": "261212",
@@ -312,17 +321,20 @@ export const SONO_SCHEDULE_2627: GameSchedule[] = [
   },
   {
     "date": "261215",
-    "opponentName": "TSG 고스트호크스",
-    "opponentCity": "기타",
+    "opponentName": "TSG GhostHawks 🇹🇼",
+    "opponentCity": "가오슝",
     "sonoScore": 0,
     "opponentScore": 0,
     "venue": "고양",
     "resultIcon": "⏳",
     "isHome": true,
     "homeTeamName": "소노",
-    "awayTeamName": "TSG 고스트호크스",
+    "awayTeamName": "TSG GhostHawks 🇹🇼",
     "homeScore": 0,
-    "awayScore": 0
+    "awayScore": 0,
+    "competition": "EASL",
+    "opponentFlag": "🇹🇼",
+    "opponentCountry": "대만"
   },
   {
     "date": "261218",
@@ -508,17 +520,20 @@ export const SONO_SCHEDULE_2627: GameSchedule[] = [
   },
   {
     "date": "270120",
-    "opponentName": "알바크 도쿄",
-    "opponentCity": "기타",
+    "opponentName": "Alvark Tokyo 🇯🇵",
+    "opponentCity": "다치카와",
     "sonoScore": 0,
     "opponentScore": 0,
-    "venue": "기타",
+    "venue": "일본",
     "resultIcon": "⏳",
     "isHome": false,
-    "homeTeamName": "알바크 도쿄",
+    "homeTeamName": "Alvark Tokyo 🇯🇵",
     "awayTeamName": "소노",
     "homeScore": 0,
-    "awayScore": 0
+    "awayScore": 0,
+    "competition": "EASL",
+    "opponentFlag": "🇯🇵",
+    "opponentCountry": "일본"
   },
   {
     "date": "270123",
@@ -564,17 +579,20 @@ export const SONO_SCHEDULE_2627: GameSchedule[] = [
   },
   {
     "date": "270203",
-    "opponentName": "사우스 고비 브롱코스",
-    "opponentCity": "기타",
+    "opponentName": "South Gobi Broncos 🇲🇳",
+    "opponentCity": "울란바토르",
     "sonoScore": 0,
     "opponentScore": 0,
-    "venue": "기타",
+    "venue": "몽골",
     "resultIcon": "⏳",
     "isHome": false,
-    "homeTeamName": "사우스 고비 브롱코스",
+    "homeTeamName": "South Gobi Broncos 🇲🇳",
     "awayTeamName": "소노",
     "homeScore": 0,
-    "awayScore": 0
+    "awayScore": 0,
+    "competition": "EASL",
+    "opponentFlag": "🇲🇳",
+    "opponentCountry": "몽골"
   },
   {
     "date": "270206",

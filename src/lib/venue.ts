@@ -11,6 +11,12 @@ const SEOUL_ARENAS: Record<string, { short: string; long: string }> = {
 };
 
 export function venueLabel(game: GameSchedule, form: "short" | "long"): string {
+  // EASL 원정은 해외 구장 — 리스트엔 국가명만, 카드엔 "국가 도시" 병기. 홈은 고양.
+  if (game.competition === "EASL") {
+    if (game.isHome) return "고양";
+    const country = game.opponentCountry ?? game.venue;
+    return form === "short" ? country : `${country} ${game.opponentCity}`.trim();
+  }
   const arena = SEOUL_ARENAS[game.homeTeamName];
   if (arena) return arena[form];
   return game.venue;

@@ -12,6 +12,10 @@ export interface GameSchedule {
   awayTeamName: string;
   homeScore: number;
   awayScore: number;
+  // EASL(동아시아 슈퍼리그) 경기에만 세팅. 없으면 KBL 경기. (fetch 스크립트가 주입)
+  competition?: "EASL";
+  opponentFlag?: string; // 국기 이모지
+  opponentCountry?: string; // 한글 국가명(원정 EASL 장소 표시용)
 }
 
 export const SONO_SCHEDULE_2526: GameSchedule[] = [

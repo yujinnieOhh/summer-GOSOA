@@ -30,6 +30,16 @@ function seasonTag(yymmdd: string): { tag: string; startYear: number } {
 export function getHighlightSearchUrl(game: GameSchedule): string {
   const month = parseInt(game.date.slice(2, 4), 10);
   const day = parseInt(game.date.slice(4, 6), 10);
+
+  // EASL은 KBL/TVING 중계가 아니므로 "EASL 하이라이트"로 검색(상대팀명 국기 제거).
+  if (game.competition === "EASL") {
+    const opp = (game.isHome ? game.awayTeamName : game.homeTeamName)
+      .replace(/[\u{1F1E6}-\u{1F1FF}]{2}/gu, "")
+      .trim();
+    const query = `소노 vs ${opp} ${month}/${day} EASL 하이라이트`;
+    return `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+  }
+
   const matchup = `${game.homeTeamName} vs ${game.awayTeamName}`;
   const { tag, startYear } = seasonTag(game.date);
   const platform = startYear >= 2024 ? "하이라이트 TVING" : "KBL 하이라이트";
