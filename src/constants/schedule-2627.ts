@@ -163,15 +163,15 @@ export const SONO_SCHEDULE_2627: GameSchedule[] = [
     "date": "261101",
     "opponentName": "KT",
     "opponentCity": "수원",
-    "sonoScore": 0,
-    "opponentScore": 0,
+    "sonoScore": 96,
+    "opponentScore": 103,
     "venue": "고양",
-    "resultIcon": "⏳",
+    "resultIcon": "💔",
     "isHome": true,
     "homeTeamName": "소노",
     "awayTeamName": "KT",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 96,
+    "awayScore": 103
   },
   {
     "date": "261103",
