@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import GameCard from "@/src/components/GameCard";
 import GameSearchInput from "@/src/components/GameSearchInput";
 import GameDetailModal from "@/src/components/GameDetailModal";
@@ -50,6 +50,15 @@ export default function HomeClient() {
   // 최신 시즌(SEASONS[0] = 26-27)이 기본 선택.
   const [activeSeason, setActiveSeason] = useState<string>(SEASONS[0].id);
   const [loadError, setLoadError] = useState<string | null>(null);
+
+  // 최신 상태 ref — 핸들러를 useCallback([])로 안정화하면서도 현재 값을 읽기 위함
+  // (렌더 중 ref.current 갱신은 React에서 안전한 "latest ref" 패턴).
+  const likedGameDatesRef = useRef(likedGameDates);
+  likedGameDatesRef.current = likedGameDates;
+  const likedIdsRef = useRef(likedIds);
+  likedIdsRef.current = likedIds;
+  const statesByDateRef = useRef(statesByDate);
+  statesByDateRef.current = statesByDate;
 
   // Initial load — pull every game that has at least one reason or anon like
   // and seed local state. The list filter further narrows to total >= 1.
@@ -176,10 +185,10 @@ export default function HomeClient() {
     }
   }
 
-  function handleAnonLike(date: string) {
+  const handleAnonLike = useCallback((date: string) => {
     // Toggle: 1st click +1, 2nd -1, 3rd +1. Liked state stays internal — the
-    // count is the only user-facing signal.
-    const wasLiked = likedGameDates.has(date);
+    // count is the only user-facing signal. (ref로 현재값 읽어 콜백은 안정 유지)
+    const wasLiked = likedGameDatesRef.current.has(date);
     const delta: 1 | -1 = wasLiked ? -1 : 1;
 
     setLikedGameDates((prev) => {
@@ -214,16 +223,16 @@ export default function HomeClient() {
         };
       });
     });
-  }
+  }, []);
 
-  function handleToggleReasonLike(reasonId: string) {
-    const wasLiked = likedIds.has(reasonId);
+  const handleToggleReasonLike = useCallback((reasonId: string) => {
+    const wasLiked = likedIdsRef.current.has(reasonId);
     const delta = wasLiked ? -1 : 1;
 
     // Find which date this reason belongs to so we can compute the new likes.
     let owningDate: string | null = null;
     let nextLikes = 0;
-    for (const [date, state] of Object.entries(statesByDate)) {
+    for (const [date, state] of Object.entries(statesByDateRef.current)) {
       const r = state.reasons.find((r) => r.id === reasonId);
       if (r) {
         owningDate = date;
@@ -277,7 +286,15 @@ export default function HomeClient() {
         };
       });
     });
-  }
+  }, []);
+
+  // 리스트 카드에 넘길 안정적인 콜백(= game을 받는 형태) → GameCard memo 작동.
+  const onCardLike = useCallback(
+    (g: GameSchedule) => handleAnonLike(g.date),
+    [handleAnonLike],
+  );
+  const onCardReasons = useCallback((g: GameSchedule) => setReasonsGame(g), []);
+  const onCardDetail = useCallback((g: GameSchedule) => setDetailGame(g), []);
 
   const reasonsForOpenGame = reasonsGame
     ? (statesByDate[reasonsGame.date]?.reasons ?? [])
@@ -310,9 +327,9 @@ export default function HomeClient() {
                 key={game.date}
                 game={game}
                 likes={totalLikesByDate(game.date)}
-                onLike={() => handleAnonLike(game.date)}
-                onShowReasons={() => setReasonsGame(game)}
-                onShowDetail={() => setDetailGame(game)}
+                onLike={onCardLike}
+                onShowReasons={onCardReasons}
+                onShowDetail={onCardDetail}
               />
             ))
           )}

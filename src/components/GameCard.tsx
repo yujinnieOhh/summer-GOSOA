@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import type { GameSchedule } from "@/src/constants/schedule";
 import { formatCount } from "@/src/lib/format";
 import { getHighlightSearchUrl } from "@/src/lib/highlight";
@@ -9,9 +9,11 @@ import { venueLabel } from "@/src/lib/venue";
 interface GameCardProps {
   game: GameSchedule;
   likes: number;
-  onLike?: () => void;
-  onShowReasons?: () => void;
-  onShowDetail?: () => void;
+  // game을 인자로 받는 형태 → 부모가 useCallback으로 안정적인 참조를 넘길 수 있어
+  // React.memo가 실제로 작동(바뀐 카드만 리렌더)한다.
+  onLike?: (game: GameSchedule) => void;
+  onShowReasons?: (game: GameSchedule) => void;
+  onShowDetail?: (game: GameSchedule) => void;
 }
 
 function dateLabel(yymmdd: string) {
@@ -115,7 +117,7 @@ function HighlightIcon() {
   );
 }
 
-export default function GameCard({
+function GameCard({
   game,
   likes,
   onLike,
@@ -133,7 +135,7 @@ export default function GameCard({
           우측 고정되므로 구장 고정폭 없이도 세로 정렬이 맞음. */}
       <button
         type="button"
-        onClick={onShowDetail}
+        onClick={() => onShowDetail?.(game)}
         aria-label="경기 상세 정보 보기"
         className="-my-1 -ml-1.5 flex min-w-0 items-center gap-1.5 rounded-sm px-1.5 py-1 text-left tabular-nums transition-colors hover:bg-sono-navy/5 active:bg-sono-navy/10"
       >
@@ -162,11 +164,11 @@ export default function GameCard({
         {/* Fixed-width slot keeps the badge horizontally centered so it grows
             symmetrically to both sides when the label gets longer. */}
         <div className="flex w-16 justify-center sm:w-20">
-          <JerseyLikeBadge count={likes} onClick={onLike} />
+          <JerseyLikeBadge count={likes} onClick={() => onLike?.(game)} />
         </div>
         <button
           type="button"
-          onClick={onShowReasons}
+          onClick={() => onShowReasons?.(game)}
           className="whitespace-nowrap rounded-sm px-1.5 py-1.5 text-[11px] font-semibold text-sono-navy ring-1 ring-sono-navy/30 transition-colors hover:bg-sono-navy/10 sm:px-3 sm:py-2 sm:text-xs"
         >
           추천 이유 보기
@@ -187,3 +189,7 @@ export default function GameCard({
     </article>
   );
 }
+
+// memo: game·likes·핸들러가 모두 그대로면 리렌더 스킵 → 좋아요/탭전환 시
+// 바뀐 카드만 다시 그림(핸들러는 HomeClient에서 useCallback으로 안정화).
+export default memo(GameCard);

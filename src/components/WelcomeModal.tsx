@@ -59,32 +59,44 @@ export default function WelcomeModal({
   const [variant, setVariant] = useState<Variant | null>(null);
   const [todayGame, setTodayGame] = useState<GameSchedule | null>(null);
 
-  // 마운트 후 결정(SSR 하이드레이션 불일치 방지 — 서버는 아무것도 렌더 안 함).
+  // 마운트 후 결정(SSR 하이드레이션 불일치 방지). 추가로 **메인 스레드가 한가해진
+  // 뒤**(requestIdleCallback)에 실행 → 로드 직후 북새통(하이드레이션·데이터 패칭·
+  // Clarity)과 겹치지 않아 첫 상호작용 INP를 보호. (iOS 등 미지원 시 setTimeout)
   useEffect(() => {
-    const today = todayYymmdd();
-    try {
-      if (localStorage.getItem(SEEN_KEY) === today) return; // 오늘 이미 봄
-    } catch {
-      /* 프라이빗 모드 등 — 그냥 띄움 */
-    }
+    const decide = () => {
+      const today = todayYymmdd();
+      try {
+        if (localStorage.getItem(SEEN_KEY) === today) return; // 오늘 이미 봄
+      } catch {
+        /* 프라이빗 모드 등 — 그냥 띄움 */
+      }
 
-    const game = ALL_SONO_GAMES.find((g) => g.date === today) ?? null;
-    let v: Variant | null = null;
-    if (game) {
-      v = "gameday";
-      setTodayGame(game);
-    } else if (today >= OCT_START && today <= OCT_END) {
-      v = "october";
-    }
-    if (!v) return;
+      const game = ALL_SONO_GAMES.find((g) => g.date === today) ?? null;
+      let v: Variant | null = null;
+      if (game) {
+        v = "gameday";
+        setTodayGame(game);
+      } else if (today >= OCT_START && today <= OCT_END) {
+        v = "october";
+      }
+      if (!v) return;
 
-    setVariant(v);
-    // 띄운 시점에 '봄' 처리 — 새로고침해도 그날은 다시 안 뜸.
-    try {
-      localStorage.setItem(SEEN_KEY, today);
-    } catch {
-      /* noop */
+      setVariant(v);
+      // 띄운 시점에 '봄' 처리 — 새로고침해도 그날은 다시 안 뜸.
+      try {
+        localStorage.setItem(SEEN_KEY, today);
+      } catch {
+        /* noop */
+      }
+    };
+
+    const ric = window.requestIdleCallback;
+    if (typeof ric === "function") {
+      const id = ric(decide, { timeout: 2000 });
+      return () => window.cancelIdleCallback?.(id);
     }
+    const t = window.setTimeout(decide, 300);
+    return () => window.clearTimeout(t);
   }, []);
 
   useEffect(() => {
