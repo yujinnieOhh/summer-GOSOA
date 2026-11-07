@@ -7,7 +7,9 @@
 
 ![Next.js](https://img.shields.io/badge/Next.js_16-000?logo=next.js) ![React](https://img.shields.io/badge/React_19-087EA4?logo=react&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white) ![Tailwind](https://img.shields.io/badge/Tailwind_v4-06B6D4?logo=tailwindcss&logoColor=white) ![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?logo=supabase&logoColor=white) ![Vercel](https://img.shields.io/badge/Vercel-000?logo=vercel)
 
-![여름고소아 메인](./public/schreenshots/summergosoa-gameslist.jpeg)
+<p align="center">
+  <img src="./public/screenshots/summergosoa-gameslist.jpeg" width="280" alt="여름고소아 경기 목록 메인 화면">
+</p>
 
 ---
 
@@ -25,6 +27,13 @@
 - **하이라이트 딥링크** — 경기별 하이라이트 영상으로 바로 이동
 - **게임데이 접속 팝업** — 경기일에 오늘 경기 추천을 유도하는 넛지
 - **경기 결과 자동 반영** — GitHub Actions 크론으로 스코어 동기화
+
+## 📸 주요 화면
+
+| 🔍 멀티시즌 통합 검색 | 📄 경기 상세 | 📣 게임데이 팝업 | ✍️ 추천 이유 작성 |
+|:---:|:---:|:---:|:---:|
+| <img src="./public/screenshots/summergosoa-search.jpeg" width="200" alt="멀티시즌 통합 검색"> | <img src="./public/screenshots/summergosoa-gamedetail.jpeg" width="200" alt="경기 상세"> | <img src="./public/screenshots/summergosoa-gamedaypopup.jpeg" width="200" alt="게임데이 접속 팝업"> | <img src="./public/screenshots/summergosoa-writing.jpeg" width="200" alt="추천 이유 작성"> |
+| 날짜·팀으로 4개 시즌을 한 검색창에서 | 좋아요·추천 이유(댓글)·하이라이트 딥링크 | 경기일 넛지 — 작성 전환 가설 실증 장치 | 로그인 없는 익명 참여 |
 
 ## 🛠 기술 스택
 
